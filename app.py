@@ -33,8 +33,8 @@ def genre():
     return json
 
 
-# 音楽取得
-@app.route('/music')
+# 座標登録
+@app.route('/location')
 def music_select():
     origin = '35.8592065,139.7665079'
     destination = '35.8592065,139.7665079'
@@ -52,6 +52,12 @@ def music_select():
     print(data)
 
     return data
+
+
+# 音楽取得
+@app.route('/music')
+def music_select():
+    return 'hello'
 
 
 if __name__ == '__main__':
