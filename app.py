@@ -1,7 +1,7 @@
 from flask import Flask
+from firestoreDb import db
 
 app = Flask(__name__)
-
 
 @app.route('/genre')
 def genre():
