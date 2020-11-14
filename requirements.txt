@@ -1,4 +1,4 @@
 flask
 firebase_admin
-urllib.request
+request
 json
