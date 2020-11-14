@@ -35,7 +35,7 @@ def genre():
 
 # 座標登録
 @app.route('/location')
-def music_select():
+def location_post():
     origin = '35.8592065,139.7665079'
     destination = '35.8592065,139.7665079'
     APIKEY = directions.APIKEY()
