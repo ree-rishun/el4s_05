@@ -23,7 +23,7 @@ def genre():
             json += ','
 
         # JSON形式に整形
-        json += u'\"' + doc.id + '\":{\"name\": \" ' + doc.to_dict()['name'] + ' \"}'
+        json += u'\"' + doc.id + '\":{\"name\": \"' + doc.to_dict()['name'] + '\"}'
 
     json += '}'
 
