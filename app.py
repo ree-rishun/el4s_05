@@ -1,6 +1,8 @@
 from flask import Flask
 import firebase_admin
 from firebase_admin import credentials, firestore
+import directions
+import requests
 
 app = Flask(__name__)
 
@@ -34,7 +36,22 @@ def genre():
 # 音楽取得
 @app.route('/music')
 def music_select():
-    return 'test'
+    origin = '35.8592065,139.7665079'
+    destination = '35.8592065,139.7665079'
+    APIKEY = directions.APIKEY()
+    APILINK = 'https://maps.googleapis.com/maps/api/directions/json?' \
+              + 'origin=' + origin \
+              + '&destination=' + destination \
+              + '&mode=walking' \
+              + '&key=' + APIKEY
+
+    print(APILINK)
+
+    data = requests.get(APILINK)
+
+    print(data)
+
+    return data
 
 
 if __name__ == '__main__':
