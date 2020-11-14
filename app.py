@@ -3,9 +3,11 @@ from firestoreDb import db
 
 app = Flask(__name__)
 
+
 @app.route('/genre')
 def genre():
-    return 'Hello World!'
+    genres = db.collection('genres').get()
+    return genres
 
 
 @app.route('/music')
