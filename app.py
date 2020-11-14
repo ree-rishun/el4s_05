@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request
 import firebase_admin
 from firebase_admin import credentials, firestore
 import directions
@@ -76,13 +76,33 @@ def location_post():
 
 # 音楽取得
 @app.route('/music')
-def music_select(id=None):
+def music_select():
     # params.id取得
+    id = request.args.get('id')
     # userのbpm求める
-    # bpmに一番近い曲を取得
-    # 曲のファイルのURLを送信
+    bpm = 100
+    # bpmに一番近い曲を取得 取り柄あえずlimit100...
+    musicsDoc = db.collection('musics').order_by('bpm').limit(100).get()
+
+    musicUrl = ""
+    prevBpm = None
+    prevMusicUrl = ""
+    isContinue = False
+    for musicDoc in musicsDoc:
+        music = musicDoc.to_dict()
+        # 初めて上回った時
+        if bpm < music["bpm"]: 
+            if abs(bpm - music["bpm"]) < abs(bpm - prevBpm):
+                musicUrl = music["path"]
+                break
+            musicUrl = prevMusicUrl
+            break
+        prevBpm = music["bpm"]
+        prevMusicUrl = music["path"]
+    
+    # 曲のファイルのURL
     return json.dumps({
-        "url": "http://www.hmix.net/music/n/n67.mp3"
+        "url": musicUrl
     })
 
 
