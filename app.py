@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 import firebase_admin
 from firebase_admin import credentials, firestore
 import directions
@@ -11,6 +11,15 @@ cred = credentials.Certificate("el4s-05-firebase-adminsdk-988jv-eaa46c25d2.json"
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+PUBLIC_IMAGES = "public/images"
+@app.route('/' + PUBLIC_IMAGES + '/<filename>')
+def public_images(filename):
+    return send_from_directory(PUBLIC_IMAGES, filename)
+
+PUBLIC_MUSICS = "public/musics"
+@app.route('/' + PUBLIC_MUSICS + '/<filename>')
+def public_musics(filename):
+    return send_from_directory(PUBLIC_MUSICS, filename)
 
 # ジャンル一覧取得
 @app.route('/genre')
@@ -67,8 +76,14 @@ def location_post():
 
 # 音楽取得
 @app.route('/music')
-def music_select():
-    return 'hello'
+def music_select(id=None):
+    # params.id取得
+    # userのbpm求める
+    # bpmに一番近い曲を取得
+    # 曲のファイルのURLを送信
+    return json.dumps({
+        "url": "http://www.hmix.net/music/n/n67.mp3"
+    })
 
 
 if __name__ == '__main__':
