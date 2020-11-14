@@ -48,17 +48,19 @@ def location_post():
               + '&mode=walking' \
               + '&key=' + APIKEY
 
-    print(APILINK)
-
-    req = urllib.request.Request(APILINK)
     jsonData = {}
 
+    # POST
+    req = urllib.request.Request(APILINK)
     with urllib.request.urlopen(req) as res:
         body = res.read()
         print(body)
         jsonData = json.loads(body)
 
+    # 距離を取得
     distance = jsonData['routes'][0]['legs'][0]['distance']['value']
+
+
 
     return 'ok'
 
