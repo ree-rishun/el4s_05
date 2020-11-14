@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory
 import firebase_admin
 from firebase_admin import credentials, firestore
 import directions
-import requests
+import urllib.request
 import json
 
 app = Flask(__name__)
@@ -46,6 +46,8 @@ def genre():
 # 座標登録
 @app.route('/location')
 def location_post():
+    doc_ref = db.collection(u'users').document(u'DuYXB5RPULTtum9Rgbmi')
+
     origin = '35.8592065,139.7665079'
     destination = '35.8592065,139.7665079'
     APIKEY = directions.APIKEY()
@@ -55,13 +57,21 @@ def location_post():
               + '&mode=walking' \
               + '&key=' + APIKEY
 
-    print(APILINK)
+    jsonData = {}
 
-    data = requests.get(APILINK)
+    # POST
+    req = urllib.request.Request(APILINK)
+    with urllib.request.urlopen(req) as res:
+        body = res.read()
+        print(body)
+        jsonData = json.loads(body)
 
-    print(data)
+    # 距離を取得
+    distance = jsonData['routes'][0]['legs'][0]['distance']['value']
 
-    return data
+
+
+    return 'ok'
 
 
 # 音楽取得

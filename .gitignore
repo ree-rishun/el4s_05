@@ -1,6 +1,7 @@
 venv
 __pycache__
 .idea
+directions.py
 
 # firebase
 el4s-05-firebase-adminsdk-988jv-eaa46c25d2.json
